@@ -46,7 +46,7 @@
                      border-width:1px;border-style:solid;">
                                     <a href="${servePath}/follow/articles/${follow.followTitle}" title="${follow.followTitle}" target="_blank">
                                         <img class="rauto"
-                                             data-lazy-src="https://blog.lete114.top/img/Lete.png"
+                                             data-lazy-src="${staticServePath}/images/default-user-thumbnail.png"
                                              onerror="null"
                                              alt="${follow.followIcon}"
                                              src="${follow.followIcon}">

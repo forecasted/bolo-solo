@@ -19,7 +19,7 @@
 -->
 <#include "macro-header.ftl">
 <div id="web_bg" data-type="color"></div>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap">
+<link rel="stylesheet" href="${staticServePath}/vendor/fonts/titillium-web/400.css">
 <link media="all" href="${staticServePath}/skins/${skinDirName}/css/main.css?${staticResourceVersion}"
       rel="stylesheet"/>
 <script src="${staticServePath}/js/lib/instantpage.js" type="module" defer></script>

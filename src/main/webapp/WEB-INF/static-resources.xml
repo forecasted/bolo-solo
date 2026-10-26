@@ -30,6 +30,9 @@
     <include path="/robots.txt"/>
     <include path="/sw.js"/>
 
+    <!-- Bundled third-party scripts, fonts, images and model configurations. -->
+    <include path="/vendor/**"/>
+
     <include path="/js/**.js"/>
     <include path="/js/**/*.js"/>
     <include path="/js/**.css"/>

@@ -25,7 +25,7 @@
             <link type="text/css" rel="stylesheet" href="${staticServePath}/scss/admin.css?${staticResourceVersion}" />
             <link type="text/css" rel="stylesheet" href="${staticServePath}/js/lib/Chart.min.css" />
             <meta name="robots" content="fn__none" />
-            <link href="https://ftp.stackoverflow.wiki/bolo/start/css/font-awesome.min.css" rel="stylesheet">
+            <link href="${staticServePath}/vendor/font-awesome-4/css/font-awesome.min.css" rel="stylesheet">
         </@head>
     </head>
     <body onhashchange="admin.setCurByHash();">
@@ -254,7 +254,7 @@
             </div>
         </div>
         <script src="${staticServePath}/js/lib/compress/admin-lib.min.js"></script>
-        <script src="https://file.fishpi.cn/vditor/3.8.13/dist/index.min.js"></script>
+        <script src="${staticServePath}/vendor/vditor/dist/index.min.js"></script>
         <script src="${staticServePath}/js/common.js"></script>
         <#if "" == miniPostfix>
         <script src="${staticServePath}/js/admin/admin.js"></script>

@@ -1,0 +1,31 @@
+Bundled third-party assets
+
+The sources.json manifest records the upstream URL or npm archive, archive path,
+and SHA-256 for each bundled file. Original copyright and license notices are
+retained. Upstream versions are pinned; no dependency is downloaded at startup.
+
+Now UI Kit 1.1.0, Kanbanniang 0.2.12, its Pio/Tia assets, Vditor 3.8.13,
+GitHub Cards, BotUI, es6-promise, Vimeo Player and MDUI assets: see upstream
+licenses and the license files distributed alongside the assets.
+Font Awesome 4.7.0: CSS under MIT, fonts under SIL OFL 1.1.
+Font Awesome Free 5.14.0: see font-awesome-5/LICENSE.txt.
+Montserrat, Titillium Web and Fira Sans: see their included font licenses.
+fancyBox 3.5.7: GPLv3 for open source use, with commercial licensing available
+from https://fancyapps.com/. Original licensing headers are preserved.
+Justified Gallery 3.8.1: see justified-gallery/LICENSE.
+Sakura CDN assets: https://github.com/moezx/cdn and
+https://github.com/mashirozx/Sakura; original notices are retained.
+
+Local changes:
+- CSS font/image URLs and JS dependency URLs point to bundled assets.
+- Vditor defaults and MathJax speech-engine paths use the local asset base.
+- Live2D derives its resource base from the requested model URL.
+- Kanbanniang uses this blog's model endpoints, local tips and backgrounds.
+- Sakura's unavailable texture service uses the bundled Pio/Tia defaults.
+- Supplier demo Google Analytics snippets were removed from Now UI Kit and
+  GitHub Cards. GitHub Cards' fixed header image is local.
+- Fixed theme images that are no longer available use local replacements.
+- The Duoshuo compatibility script is intentionally empty; blog comments are
+  provided by the application's own comment system.
+- font.css, cn.css, tw.css, or.css, font-awesome-loader.js and gezi.svg are
+  local integration files. Their checksums are tracked in the manifest.

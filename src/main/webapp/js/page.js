@@ -140,7 +140,7 @@ $.extend(Page.prototype, {
         if (!$('#soloEditorComment').hasClass('vditor')) {
             var that = this;
             Util.addScript(
-                'https://file.fishpi.cn/vditor/3.8.13/dist/index.min.js',
+                (Label.staticServePath+"/vendor/vditor"+"/dist/index.min.js"),
                 'vditorScript');
             var toolbar = [
                 'emoji',

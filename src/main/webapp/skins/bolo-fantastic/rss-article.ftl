@@ -41,7 +41,7 @@
                 <@head title="${article.articleTitle} - ${blogTitle}"
                     description="${article.articleAbstract?html}">
                     <link rel="stylesheet" href="${staticServePath}/js/lib/bulma.min.css" />
-                    <link rel="stylesheet" href="https://ftp.stackoverflow.wiki/bolo/fantastic/css/all.min.css">
+                    <link rel="stylesheet" href="${staticServePath}/vendor/font-awesome-5/css/all.min.css">
                     <link rel="stylesheet" href="${staticServePath}/skins/${skinDirName}/css/base.css?${staticResourceVersion}" />
                     <link rel="stylesheet" href="${staticServePath}/skins/${skinDirName}/css/style.css?${staticResourceVersion}" />
                     <link rel="stylesheet" href="${staticServePath}/js/lib/swiper.min.css">

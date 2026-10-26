@@ -111,15 +111,15 @@
         <servlet.version>3.1.0</servlet.version>
 
         <license-maven-plugin.version>3.0</license-maven-plugin.version>
-        <maven-surefire-plugin.version>2.22.1</maven-surefire-plugin.version>
-        <maven-war-plugin.version>3.2.2</maven-war-plugin.version>
+        <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
+        <maven-surefire-plugin.version>3.2.5</maven-surefire-plugin.version>
+        <maven-war-plugin.version>3.4.0</maven-war-plugin.version>
         <coveralls-maven-plugin.version>4.3.0</coveralls-maven-plugin.version>
-        <jacoco-maven-plugin.version>0.8.2</jacoco-maven-plugin.version>
+        <jacoco-maven-plugin.version>0.8.12</jacoco-maven-plugin.version>
         <testng.version>6.1.1</testng.version>
         <mysql-connector-java.version>8.0.18</mysql-connector-java.version>
 
-        <maven.compiler.target>1.8</maven.compiler.target>
-        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.release>21</maven.compiler.release>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -352,6 +352,11 @@
 
         <plugins>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven-compiler-plugin.version}</version>
+            </plugin>
+            <plugin>
                 <groupId>org.eluder.coveralls</groupId>
                 <artifactId>coveralls-maven-plugin</artifactId>
                 <version>${coveralls-maven-plugin.version}</version>
@@ -482,14 +487,14 @@
             <repositories>
                 <repository>
                     <id>aliyun</id>
-                    <url>http://maven.aliyun.com/nexus/content/groups/public</url>
+                    <url>https://maven.aliyun.com/repository/public</url>
                 </repository>
             </repositories>
 
             <pluginRepositories>
                 <pluginRepository>
                     <id>aliyun</id>
-                    <url>http://maven.aliyun.com/nexus/content/groups/public</url>
+                    <url>https://maven.aliyun.com/repository/public</url>
                 </pluginRepository>
             </pluginRepositories>
         </profile>

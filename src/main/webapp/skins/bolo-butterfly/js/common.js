@@ -7344,7 +7344,7 @@
                                                                     0 === e.code ? (n = e.data.map((function(e) {
                                                                         return e.value = "@" + e.userName, e.html = "<img src='" + e.userAvatarURL + "'/> " + e.userName, e
                                                                     })), "" === t && n.push({
-                                                                        html: "<img src='https://static.ld246.com/images/user-thumbnail.png'/> 参与者",
+                                                                        html: ("<img src='"+Label.staticServePath+"/images/default-user-thumbnail.png"+"'/> 参与者"),
                                                                         value: "@participants"
                                                                     })) : i(e.msg)
                                                                 }
@@ -8002,7 +8002,7 @@
         loadVditor: function(e) {
             o.a.ajax({
                 method: "GET",
-                url: "https://file.fishpi.cn/vditor/3.8.13/dist/index.min.js",
+                url: (Label.staticServePath+"/vendor/vditor"+"/dist/index.min.js"),
                 dataType: "script",
                 cache: !0,
                 success: function() {
@@ -8059,7 +8059,7 @@
                 }("theme");
             t = (e = (new Date).getHours()) <= 6 || e >= 18, void 0 === o ? t ? n() : r() : "light" === o ? r() : n();
             window.addEventListener("load", (function() {
-                loadScript("https://sdk.jinrishici.com/v2/browser/jinrishici.js", (function() {
+                loadScript((Label.staticServePath+"/vendor/jinrishici.js"), (function() {
                     jinrishici.load((function(e) {
                         var t = 0 == "May the god bless you.,It is better to burn out than to fade away.".length ? new Array : "May the god bless you.,It is better to burn out than to fade away.".split(","),
                             n = e.data.content;
@@ -8279,12 +8279,7 @@
     })),
         function() {
             window.cnblogsConfig = {
-                homeTopImg: ["https://ftp.stackoverflow.wiki/bolo/background/butterfly/1.jpg", "https://ftp.stackoverflow.wiki/bolo/background/butterfly/2.jpg", 
-                "https://ftp.stackoverflow.wiki/bolo/background/butterfly/3.jpg", "https://ftp.stackoverflow.wiki/bolo/background/butterfly/4.jpg", 
-                "https://ftp.stackoverflow.wiki/bolo/background/butterfly/5.jpg", "https://ftp.stackoverflow.wiki/bolo/background/butterfly/6.jpg", 
-                "https://ftp.stackoverflow.wiki/bolo/background/butterfly/7.jpg", "https://ftp.stackoverflow.wiki/bolo/background/butterfly/8.jpg", 
-                "https://ftp.stackoverflow.wiki/bolo/background/butterfly/9.jpg", "https://ftp.stackoverflow.wiki/bolo/background/butterfly/10.jpg",
-                "https://ftp.stackoverflow.wiki/bolo/background/butterfly/11.jpg","https://ftp.stackoverflow.wiki/bolo/background/butterfly/13.jpg"]
+                homeTopImg: [Label.staticServePath + "/skins/bolo-butterfly/images/header-bg.jpg"]
             };
             let e, t = window.cnblogsConfig.homeTopImg;
             var n, r;

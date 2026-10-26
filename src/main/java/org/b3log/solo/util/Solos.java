@@ -657,4 +657,21 @@ public final class Solos {
 
         return Integer.valueOf(windowSize);
     }
+
+    /**
+     * Resolves historic default avatars locally while preserving custom user avatars.
+     *
+     * @param user the specified user
+     * @return the avatar URL
+     */
+    public static String getUserAvatarURL(final JSONObject user) {
+        final String avatarURL = user.optString(UserExt.USER_AVATAR);
+        if (StringUtils.isBlank(avatarURL)
+                || "/images/default-user-thumbnail.png".equals(avatarURL)
+                || "https://pic.stackoverflow.wiki/uploadImages/114/246/231/87/2020/06/06/02/26/65e10ea4-41e0-4da8-82fa-a00da2770ce2.png".equals(avatarURL)
+                || "https://pic.stackoverflow.wiki/uploadImages/117/136/73/84/2020/08/03/19/59/2c12286b-91a0-478e-ba47-edaa21f19476.png".equals(avatarURL)) {
+            return Latkes.getStaticServePath() + "/images/default-user-thumbnail.png";
+        }
+        return avatarURL;
+    }
 }

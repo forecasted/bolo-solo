@@ -718,7 +718,7 @@
 
             }</style>
         <div class="commentFont" id="commentIcon" style="margin: 0 auto; text-align: center; padding-bottom: 20px">
-            <img src="https://ftp.stackoverflow.wiki/bolo/background/butterfly/comment.png">
+            <img src="${staticServePath}/skins/bolo-butterfly/images/header-bg.jpg">
             <span style="font-size: 30px; vertical-align: middle;">评论</span>
         </div>
 

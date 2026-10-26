@@ -177,10 +177,7 @@ public final class Markdowns {
         final LangPropsService langPropsService = BeanManager.getInstance().getReference(LangPropsService.class);
 
         final ExecutorService pool = Executors.newSingleThreadExecutor();
-        final long[] threadId = new long[1];
-
         final Callable<String> call = () -> {
-            threadId[0] = Thread.currentThread().getId();
 
             String html = null;
             if (LUTE_AVAILABLE) {
@@ -267,22 +264,13 @@ public final class Markdowns {
         };
 
         Stopwatchs.start("Md to HTML");
+        final Future<String> future = pool.submit(call);
         try {
-            final Future<String> future = pool.submit(call);
-
             return future.get(MD_TIMEOUT, TimeUnit.MILLISECONDS);
         } catch (final TimeoutException e) {
+            future.cancel(true);
             LOGGER.log(Level.ERROR, "Markdown timeout [md=" + markdownText + "]");
             Callstacks.printCallstack(Level.ERROR, new String[]{"org.b3log"}, null);
-
-            final Set<Thread> threads = Thread.getAllStackTraces().keySet();
-            for (final Thread thread : threads) {
-                if (thread.getId() == threadId[0]) {
-                    thread.stop();
-
-                    break;
-                }
-            }
         } catch (final Exception e) {
             LOGGER.log(Level.ERROR, "Markdown failed [md=" + markdownText + "]", e);
         } finally {

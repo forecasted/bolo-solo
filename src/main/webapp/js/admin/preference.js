@@ -140,7 +140,7 @@ admin.preference = {
         'true' === preference.syncGitHub ? $('#syncGitHub').attr('checked', 'checked') : $('syncGitHub').removeAttr('checked')
         'true' === preference.pullGitHub ? $('#pullGitHub').attr('checked', 'checked') : $('pullGitHub').removeAttr('checked')
         'true' === preference.welfareLuteService ? $('#welfareLuteService').attr('checked', 'checked') : $('#welfareLuteService').removeAttr('checked')
-        'true' === preference.helpImprovePlan ? $('#helpImprovePlan').attr('checked', 'checked') : $('#helpImprovePlan').removeAttr('checked')
+        $('#helpImprovePlan').prop('checked', false)
 
         $("input:radio[value='" + preference.editorMode + "']").attr('checked', 'true');
         admin.preference.editorMode = preference.editorMode
@@ -264,7 +264,7 @@ admin.preference = {
 
     var requestJSONObject = {
       'preference': {
-        'helpImprovePlan': $("#helpImprovePlan").prop('checked'),
+        'helpImprovePlan': false,
         'enableAutoFlushGitHub': $("#enableAutoFlushGitHub").prop('checked'),
         'enableAutoFlushGitHubProfile': $("#enableAutoFlushGitHubProfile").prop('checked'),
         'welfareLuteService': $("#welfareLuteService").prop('checked'),

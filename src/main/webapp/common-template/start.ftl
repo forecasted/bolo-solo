@@ -23,11 +23,11 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <meta name="viewport" content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
-    <link href="https://ftp.stackoverflow.wiki/bolo/start/css/font.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://ftp.stackoverflow.wiki/bolo/start/css/font-awesome.min.css" />
-    <link href="https://ftp.stackoverflow.wiki/bolo/start/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="https://ftp.stackoverflow.wiki/bolo/start/css/now-ui-kit.css?v=1.1.0" rel="stylesheet" />
-    <link href="https://ftp.stackoverflow.wiki/bolo/start/css/demo.css" rel="stylesheet" />
+    <link href="${staticServePath}/vendor/now-ui-kit/css/font.css" rel="stylesheet" />
+    <link rel="stylesheet" href="${staticServePath}/vendor/font-awesome-4/css/font-awesome.min.css" />
+    <link href="${staticServePath}/vendor/now-ui-kit/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="${staticServePath}/vendor/now-ui-kit/css/now-ui-kit.css?v=1.1.0" rel="stylesheet" />
+    <link href="${staticServePath}/vendor/now-ui-kit/css/demo.css" rel="stylesheet" />
     <link rel="icon" type="image/png" href="${faviconURL}"/>
     <link rel="apple-touch-icon" href="${faviconURL}">
     <link rel="shortcut icon" type="image/x-icon" href="${faviconURL}">
@@ -56,7 +56,7 @@
     </div>
 </nav>
 <div class="page-header" filter-color="orange">
-    <div class="page-header-image" id="bgHeader"></div>
+    <div class="page-header-image" id="bgHeader" style="background-image: url('${staticServePath}/skins/bolo-butterfly/images/header-bg.jpg');"></div>
     <div class="container">
         <div class="col-md-4 content-center">
             <div class="card card-login card-plain">
@@ -139,23 +139,17 @@
     <footer class="footer">
         <div class="container">
             <div class="copyright">
-                <span id="description"></span>
+                <span id="description">Powered by <a href="https://github.com/bolo-blog/bolo-solo" target="_blank" rel="noopener noreferrer">Bolo</a></span>
             </div>
         </div>
     </footer>
 </div>
 </body>
-<script src="https://ftp.stackoverflow.wiki/bolo/start/js/core/jquery.3.2.1.min.js" type="text/javascript"></script>
-<script src="https://ftp.stackoverflow.wiki/bolo/start/js/core/popper.min.js" type="text/javascript"></script>
-<script src="https://ftp.stackoverflow.wiki/bolo/start/js/core/bootstrap.min.js" type="text/javascript"></script>
-<script src="https://ftp.stackoverflow.wiki/bolo/start/js/plugins/bootstrap-switch.js"></script>
-<script src="https://ftp.stackoverflow.wiki/bolo/start/js/plugins/nouislider.min.js" type="text/javascript"></script>
-<script src="https://ftp.stackoverflow.wiki/bolo/start/js/plugins/bootstrap-datepicker.js" type="text/javascript"></script>
-<script src="https://ftp.stackoverflow.wiki/bolo/start/js/plugins/jquery.sharrre.js" type="text/javascript"></script>
-<script src="https://ftp.stackoverflow.wiki/bolo/start/js/now-ui-kit.js?v=1.1.0" type="text/javascript"></script>
-<script type="text/javascript">
-    var timeStamp = Date.parse(new Date());
-    $('#description').load('https://programmingwithlove.stackoverflow.wiki/loginDescription?version=' + timeStamp);
-    $('#bgHeader').prop('style', 'background-image:url(https://programmingwithlove.stackoverflow.wiki/loginBg?version=' + timeStamp + ')');
-</script>
+<script src="${staticServePath}/vendor/now-ui-kit/js/core/jquery.3.2.1.min.js" type="text/javascript"></script>
+<script src="${staticServePath}/vendor/now-ui-kit/js/core/popper.min.js" type="text/javascript"></script>
+<script src="${staticServePath}/vendor/now-ui-kit/js/core/bootstrap.min.js" type="text/javascript"></script>
+<script src="${staticServePath}/vendor/now-ui-kit/js/plugins/bootstrap-switch.js"></script>
+<script src="${staticServePath}/vendor/now-ui-kit/js/plugins/nouislider.min.js" type="text/javascript"></script>
+<script src="${staticServePath}/vendor/now-ui-kit/js/plugins/bootstrap-datepicker.js" type="text/javascript"></script>
+<script src="${staticServePath}/vendor/now-ui-kit/js/now-ui-kit.js?v=1.1.0" type="text/javascript"></script>
 </html>

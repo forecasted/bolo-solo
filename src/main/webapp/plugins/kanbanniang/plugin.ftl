@@ -17,8 +17,8 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 -->
-<link type="text/css" rel="stylesheet" href="https://ftp.stackoverflow.wiki/bolo/kanbanniang/index.css"/>
-<script async src="https://ftp.stackoverflow.wiki/bolo/kanbanniang/index.new.js"></script>
+<link type="text/css" rel="stylesheet" href="${staticServePath}/vendor/kanbanniang/index.css"/>
+<script defer src="${staticServePath}/vendor/kanbanniang/index.js"></script>
 <div class="solo-kanbanniang">
     <div class="solo-kanbanniang__tip"></div>
     <canvas id="soloKanbanniang" width="280" height="250"></canvas>

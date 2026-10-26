@@ -652,11 +652,13 @@ public class DataModelService {
      * @param preference the specified preference
      */
     public void fillFaviconURL(final Map<String, Object> dataModel, final JSONObject preference) {
-        if (null == preference) {
-            dataModel.put(Common.FAVICON_URL, Option.DefaultPreference.DEFAULT_FAVICON_URL);
-        } else {
-            dataModel.put(Common.FAVICON_URL, preference.optString(Option.ID_C_FAVICON_URL));
+        String faviconURL = null == preference ? "" : preference.optString(Option.ID_C_FAVICON_URL);
+        if (StringUtils.isBlank(faviconURL)
+                || Option.DefaultPreference.DEFAULT_FAVICON_URL.equals(faviconURL)
+                || "https://pic.stackoverflow.wiki/uploadImages/114/246/231/87/2020/06/06/16/41/3e4a3ce8-8882-4258-9860-a337bf859605.png".equals(faviconURL)) {
+            faviconURL = Latkes.getStaticServePath() + Option.DefaultPreference.DEFAULT_FAVICON_URL;
         }
+        dataModel.put(Common.FAVICON_URL, faviconURL);
     }
 
     /**
@@ -923,7 +925,7 @@ public class DataModelService {
             dataModel.put(User.USER_NAME, "");
             final JSONObject currentUser = Solos.getCurrentUser(context.getRequest(), context.getResponse());
             if (null != currentUser) {
-                final String userAvatar = currentUser.optString(UserExt.USER_AVATAR);
+                final String userAvatar = Solos.getUserAvatarURL(currentUser);
                 dataModel.put(Common.GRAVATAR, userAvatar);
                 dataModel.put(User.USER_NAME, currentUser.optString(User.USER_NAME));
             }
@@ -986,15 +988,22 @@ public class DataModelService {
             dataModel.put(Common.YEAR, String.valueOf(Calendar.getInstance().get(Calendar.YEAR)));
             dataModel.put(Common.IS_LOGGED_IN,
                     null != Solos.getCurrentUser(context.getRequest(), context.getResponse()));
-            dataModel.put(Common.FAVICON_API, Solos.FAVICON_API);
+            dataModel.put(Common.FAVICON_API, Solos.FAVICON_API.startsWith("/")
+                    ? Latkes.getStaticServePath() + Solos.FAVICON_API : Solos.FAVICON_API);
             final String noticeBoard = preference.getString(Option.ID_C_NOTICE_BOARD);
             dataModel.put(Option.ID_C_NOTICE_BOARD, noticeBoard);
             // 皮肤不显示访客用户 https://github.com/b3log/solo/issues/12752
             final Query query = new Query().setPageCount(1)
                     .setFilter(new PropertyFilter(User.USER_ROLE, FilterOperator.NOT_EQUAL, Role.VISITOR_ROLE));
             final List<JSONObject> userList = userRepository.getList(query);
+            for (final JSONObject user : userList) {
+                user.put(UserExt.USER_AVATAR, Solos.getUserAvatarURL(user));
+            }
             dataModel.put(User.USERS, userList);
             final JSONObject admin = userRepository.getAdmin();
+            if (null != admin) {
+                admin.put(UserExt.USER_AVATAR, Solos.getUserAvatarURL(admin));
+            }
             dataModel.put(Common.ADMIN_USER, admin);
             // 返回 Bolo 设定的链滴用户名
             String userName = "";
@@ -1247,7 +1256,7 @@ public class DataModelService {
             article.put(Article.ARTICLE_T_CREATE_DATE, new Date(article.optLong(Article.ARTICLE_CREATED)));
             article.put(Article.ARTICLE_T_UPDATE_DATE, new Date(article.optLong(Article.ARTICLE_UPDATED)));
 
-            final String userAvatar = author.optString(UserExt.USER_AVATAR);
+            final String userAvatar = Solos.getUserAvatarURL(author);
             article.put(Common.AUTHOR_THUMBNAIL_URL, userAvatar);
 
             if (preference.getBoolean(Option.ID_C_ENABLE_ARTICLE_UPDATE_HINT)) {

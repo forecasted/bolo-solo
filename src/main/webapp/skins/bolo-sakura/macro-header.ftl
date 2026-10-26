@@ -127,7 +127,7 @@
                     </div>
                 <#else>
                     <a href="${servePath}/start"><img class="faa-shake animated-hover"
-                                                                  src="https://ftp.stackoverflow.wiki/bolo/moezx/cdn/img/Sakura/images/none.png"
+                                                                  src="${staticServePath}/vendor/sakura/img/Sakura/images/none.png"
                                                                   width="30" height="30"></a>
                     <div class="header-user-menu">
                         <div class="herder-user-name no-logged">

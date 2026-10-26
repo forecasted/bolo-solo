@@ -46,7 +46,7 @@
                      border-width:1px;border-style:solid;">
                                     <a href="${link.linkAddress}" title="${link.linkTitle}" target="_blank">
                                         <img class="rauto"
-                                             data-lazy-src="https://blog.lete114.top/img/Lete.png"
+                                             data-lazy-src="${staticServePath}/images/default-user-thumbnail.png"
                                              onerror="null"
                                              alt="${link.linkIcon}"
                                              src="${link.linkIcon}">

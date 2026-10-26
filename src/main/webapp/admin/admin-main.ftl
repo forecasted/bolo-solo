@@ -139,9 +139,7 @@
         </div>
         <div class="module-body padding12">
             <div id="noticeList" style="background: none;">
-                <script>
-                    $("#noticeList").load("https://ftp.stackoverflow.wiki/bolo/boardcast.html");
-                </script>
+                <a href="https://github.com/bolo-blog/bolo-solo/releases" target="_blank" rel="noopener noreferrer">查看菠萝博客的版本公告</a>
             </div>
         </div>
     </div>

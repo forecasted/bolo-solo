@@ -31,7 +31,6 @@ import org.b3log.latke.servlet.annotation.RequestProcessing;
 import org.b3log.latke.servlet.annotation.RequestProcessor;
 import org.b3log.latke.servlet.renderer.JsonRenderer;
 import org.b3log.solo.SoloServletListener;
-import org.b3log.solo.bolo.SslUtils;
 import org.b3log.solo.model.Option;
 import org.b3log.solo.repository.OptionRepository;
 import org.b3log.solo.repository.PluginRepository;
@@ -70,9 +69,13 @@ public class KanBanNiangProcessor {
     private OptionRepository optionRepository;
 
     /**
-     * Online KanBanNiang resources download.
+     * Downloads an optional model archive. The default models are bundled with the application.
      */
     public static void downloadKBNResource() {
+        final String downloadURL = System.getProperty("bolo.kanbanniang.modelArchiveUrl", "").trim();
+        if (downloadURL.isEmpty()) {
+            return;
+        }
         boolean enabled = true;
         try {
             final BeanManager beanManager = BeanManager.getInstance();
@@ -91,12 +94,12 @@ public class KanBanNiangProcessor {
                 final String assets = "/plugins/kanbanniang/assets/";
                 path = servletContext.getResource(assets).getPath();
                 path = URLDecoder.decode(path);
-                String downloadURL = "https://ftp.stackoverflow.wiki/bolo/kanbanniang/KBNModel.zip";
                 file = new File(path + "KBNModel.zip");
                 FileOutputStream fileOutputStream = new FileOutputStream(file);
                 URL url = new URL(downloadURL);
-                SslUtils.ignoreSsl();
                 URLConnection connection = url.openConnection();
+                connection.setConnectTimeout(10000);
+                connection.setReadTimeout(30000);
                 float size = (connection.getContentLength() / 1024 / 1024);
                 System.out.println("KanBanNiang resource total size: " + size + " MB ");
                 for (int i = 0; i <= (Math.round(size)); i++) {
@@ -128,7 +131,9 @@ public class KanBanNiangProcessor {
                 file.delete();
                 LOGGER.log(Level.INFO, "KanBanNiang is ready.");
             } catch (Exception e) {
-                file.delete();
+                if (file != null) {
+                    file.delete();
+                }
                 LOGGER.log(Level.ERROR, "KanBanNiang resources download failed. Reason: " + e.toString());
             }
         }

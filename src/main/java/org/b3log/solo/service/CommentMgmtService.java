@@ -27,6 +27,7 @@ import java.util.stream.Collectors;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateFormatUtils;
 import org.b3log.latke.Keys;
+import org.b3log.latke.Latkes;
 import org.b3log.latke.event.EventManager;
 import org.b3log.latke.ioc.Inject;
 import org.b3log.latke.logging.Level;
@@ -343,7 +344,7 @@ public class CommentMgmtService {
                 newUser.put(User.USER_URL, commentURL);
                 newUser.put(User.USER_ROLE, Role.VISITOR_ROLE);
                 newUser.put(UserExt.USER_AVATAR,
-                        "https://pic.stackoverflow.wiki/uploadImages/114/246/231/87/2020/06/06/02/26/65e10ea4-41e0-4da8-82fa-a00da2770ce2.png");
+                        Latkes.getStaticServePath() + "/images/default-user-thumbnail.png");
                 newUser.put(UserExt.USER_B3_KEY, "0a45c98b7f065e77accc819d08882200");
                 newUser.put(UserExt.USER_GITHUB_ID, "000000");
                 userRepository.add(newUser);
@@ -441,7 +442,7 @@ public class CommentMgmtService {
     public void setCommentThumbnailURL(final JSONObject comment) throws Exception {
         final String commenterName = comment.optString(Comment.COMMENT_NAME);
         final JSONObject commenter = userRepository.getByUserName(commenterName);
-        final String avatarURL = commenter.optString(UserExt.USER_AVATAR);
+        final String avatarURL = Solos.getUserAvatarURL(commenter);
         comment.put(Comment.COMMENT_THUMBNAIL_URL, avatarURL);
     }
 

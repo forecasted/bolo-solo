@@ -22,6 +22,9 @@ import org.b3log.latke.servlet.RequestContext;
 public class ImproveHelperExecutor {
 
     public static void submit(final RequestContext context) {
+        if (!"true".equals(ImproveOptions.doJoinHelpImprovePlan())) {
+            return;
+        }
         SharedExecutorPool.executor.execute(new ImproveHelper(context));
     }
 }

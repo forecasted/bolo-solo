@@ -24,7 +24,7 @@
     <div class="module-body padding12 fn__flex">
         <div class="about-logo">
             <a href="https://github.com/adlered/bolo-solo" target="_blank">
-                <img width="128" src="https://pic.stackoverflow.wiki/uploadImages/114/246/231/87/2020/06/06/16/41/3e4a3ce8-8882-4258-9860-a337bf859605.png" alt="Bolo 重塑经典，致敬 Solo" title="Bolo 重塑经典，致敬 Solo" />
+                <img width="128" src="${staticServePath}/images/logo.png" alt="Bolo 重塑经典，致敬 Solo" title="Bolo 重塑经典，致敬 Solo" />
             </a>
         </div>
         <div class="about__panel">
@@ -33,10 +33,8 @@
                 当前 Bolo 版本：${boloVersion}<br>
             </div>
 
-            <iframe src="https://ghbtns.com/github-btn.html?user=adlered&repo=bolo-solo&type=star&count=true&size=large"
-                    frameborder="0" scrolling="0" width="160px" height="30px" class="about__iframe"
-                    style="margin: 21px 0 0 20px;border: 0"
-                    class="fn__left"></iframe>
+            <a href="https://github.com/bolo-blog/bolo-solo" target="_blank" rel="noopener noreferrer"
+               class="fn__left" style="margin: 21px 0 0 20px">在 GitHub 上支持菠萝博客</a>
             <div class="fn__clear"></div>
             <script type="text/javascript">
                 var version = '${boloVersion}';
@@ -46,7 +44,7 @@
     </div>
     <span class="fn__clear">
         <div style="margin: 25px 25px 0px 25px">
-            <iframe src="https://doc.stackoverflow.wiki/web/#/7?page_id=91" frameborder="no" border="0" scrolling="auto" style="display: block; height: 550px; width: 100%;"></iframe>
+            <a href="https://github.com/bolo-blog/bolo-solo#readme" target="_blank" rel="noopener noreferrer">查看项目文档</a>
         </div>
     </span>
     <br><br>

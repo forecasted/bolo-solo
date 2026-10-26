@@ -202,7 +202,7 @@ public class Options {
                         "false" },
                 new Object[] { Option.ID_C_MY_GITHUB_ID, Option.CATEGORY_C_PREFERENCE, "" },
                 new Object[] { Option.ID_C_SEND_KEY, Option.CATEGORY_C_PREFERENCE, "" },
-                new Object[] { Option.ID_C_HELP_IMPROVE_PLAN, Option.CATEGORY_C_PREFERENCE, "" },
+                new Object[] { Option.ID_C_HELP_IMPROVE_PLAN, Option.CATEGORY_C_PREFERENCE, "false" },
                 new Object[] { Option.ID_C_IMAGE_UPLOAD_COMPRESS, Option.CATEGORY_C_PREFERENCE, "1.0" },
                 new Object[] { Option.ID_C_THUMB_COMPRESS, Option.CATEGORY_C_PREFERENCE, "1.0" });
         return optList;

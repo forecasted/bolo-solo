@@ -26,114 +26,57 @@
 
 /* about 相关操作 */
 admin.about = {
-  init: async function () {
-    const rawVersion = version.split(" ")[0].substr(1);
-    const current = parseVersion(rawVersion);
-    let latest = [...current];
-    const checked = new Set();
+  init: function () {
+    const current = parseVersion(version.split(' ')[0]);
+    const releasesURL = 'https://github.com/bolo-blog/bolo-solo/releases';
 
-    if (version.split(" ")[1] === "内测版") {
+    if (version.split(' ')[1] === '内测版') {
       $('#updateCheck').html('🍍 <font style="color: #3caf36">您正在使用菠萝博客内测版本，感谢您对开源的贡献！</font>');
       return;
     }
 
-    function parseVersion (v) {
-      return v.split('.').map(n => parseInt(n, 10));
-    }
-
-    function versionToStr (v) {
-      return 'v' + v.join('.');
-    }
-
-    function versionToFilename (v) {
-      return 'bolo_v' + v.join('_') + '_stable.zip';
-    }
-
-    function checkExists (v) {
-      if (checked.has(versionToStr(v))) return Promise.resolve(false);
-      checked.add(versionToStr(v));
-      const url = 'https://ftp.stackoverflow.wiki/bolo/releases/' + versionToFilename(v);
-      return new Promise(resolve => {
-        $.ajax({
-          url: url,
-          type: 'HEAD',
-          success: () => resolve(true),
-          error: () => resolve(false),
-        });
-      });
+    function parseVersion (value) {
+      const match = /^v?(\d+(?:\.\d+)*)(?:[-_]stable)?$/.exec(value);
+      return match ? match[1].split('.').map(Number) : null;
     }
 
     function compareVersions (a, b) {
-      const maxLen = Math.max(a.length, b.length);
-      for (let i = 0; i < maxLen; i++) {
-        const ai = a[i] || 0, bi = b[i] || 0;
-        if (ai !== bi) return ai - bi;
+      for (let i = 0; i < Math.max(a.length, b.length); i++) {
+        const difference = (a[i] || 0) - (b[i] || 0);
+        if (difference !== 0) return difference;
       }
       return 0;
     }
 
-    // 限制版本号最多3位
-    function nextVersions (v) {
-      const results = [];
-      const len = v.length;
+    function checkFailed () {
+      $('#updateCheck').html('<a href="' + releasesURL + '" target="_blank" rel="noopener noreferrer">版本更新检查失败，点击手动查看版本公告。</a>');
+    }
 
-      for (let i = 0; i < len; i++) {
-        let next = v.slice();
-        next[i]++;
-        for (let j = i + 1; j < len; j++) next[j] = 0;
-        if (next.length <= 3) results.push(next);
-      }
-
-      if (len < 3) {
-        let extended = v.slice();
-        extended.push(0);
-        for (let i = 0; i < extended.length; i++) {
-          let next = extended.slice();
-          next[i]++;
-          for (let j = i + 1; j < extended.length; j++) next[j] = 0;
-          if (next.length <= 3) results.push(next);
+    $.ajax({
+      url: 'https://api.github.com/repos/bolo-blog/bolo-solo/releases/latest',
+      dataType: 'json',
+      timeout: 10000,
+      success: function (release) {
+        const latest = parseVersion(release.tag_name || '');
+        if (!current || !latest || release.draft || release.prerelease) {
+          checkFailed();
+          return;
         }
-      }
-
-      return results;
-    }
-
-    async function findLatest () {
-      const queue = [current];
-
-      while (queue.length > 0) {
-        const ver = queue.shift();
-
-        const candidates = nextVersions(ver);
-        for (const candidate of candidates) {
-          const exists = await checkExists(candidate);
-          if (exists && compareVersions(candidate, latest) > 0) {
-            latest = candidate;
-            queue.push(candidate);
-          }
+        if (compareVersions(current, latest) >= 0) {
+          $('#updateCheck').html('🍍 <font style="color: #3caf36">你正在使用菠萝博客最新版！</font>');
+        } else {
+          $('<a>', {
+            href: releasesURL,
+            target: '_blank',
+            rel: 'noopener noreferrer',
+            text: '菠萝博客 ' + release.tag_name + ' 已推出，赶快更新吧！',
+          }).css('color', '#991a1a').appendTo($('#updateCheck').empty());
         }
-      }
-    }
-
-    const currentExists = await checkExists(current);
-    if (!currentExists) {
-      $('#updateCheck').html('<font style="color: #e94c89">版本更新检查失败，网络错误或该版本为内测版本。</font>');
-      return;
-    }
-
-    console.info('开始检测新版本...');
-    await findLatest();
-
-    if (compareVersions(current, latest) === 0) {
-      $('#updateCheck').html('🍍 <font style="color: #3caf36">你正在使用菠萝博客最新版！</font>');
-    } else {
-      $('#updateCheck').html(
-        `<a href="https://github.com/adlered/bolo-solo/releases" target="_blank" style="color: #991a1a">菠萝博客 ${versionToStr(latest)} 已推出，赶快更新吧！</a>`
-      );
-    }
-
-    $("#tipMsg").text("");
-    $("#loadMsg").text("");
+        $('#tipMsg').text('');
+        $('#loadMsg').text('');
+      },
+      error: checkFailed,
+    });
   }
 }
 

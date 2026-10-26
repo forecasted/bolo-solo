@@ -18,6 +18,7 @@
 package org.b3log.solo.util;
 
 import com.vdurmont.emoji.EmojiParser;
+import org.b3log.latke.Latkes;
 
 import java.util.regex.Pattern;
 
@@ -62,7 +63,8 @@ public final class Emotions {
 
         ret = toUnicode(ret);
         for (final String emojiCode : EMOJIS) {
-            String repl = "<img alt=\"" + emojiCode + "\" class=\"emoji\" src=\"https://file.fishpi.cn/vditor/3.8.13/dist/images/emoji/" + emojiCode;
+            String repl = "<img alt=\"" + emojiCode + "\" class=\"emoji\" src=\""
+                    + Latkes.getStaticServePath() + "/vendor/vditor/dist/images/emoji/" + emojiCode;
             final String suffix = "huaji".equals(emojiCode) ? ".gif" : ".png";
             repl += suffix + "\" title=\"" + emojiCode + "\" />";
             ret = ret.replace(":" + emojiCode + ":", repl);

@@ -30,10 +30,10 @@
     <div class="search_close">
     </div>
 </form>
-<script type='text/javascript' src='https://ftp.stackoverflow.wiki/bolo/moezx/cdn/js/lib.min.js?ver=3.1.5'></script>
+<script type='text/javascript' src='${staticServePath}/vendor/sakura/js/lib.js?ver=3.1.5'></script>
 <script type='text/javascript'>var Poi = {
         "movies": {
-            "url": "https:\/\/ftp.stackoverflow.wiki\/bolo\/moezx\/cdn\/",
+            "url": "${staticServePath}/vendor/sakura/",
             "name": "The Pet Girl of Sakurasou",
             "live": "close"
         },
@@ -43,7 +43,7 @@
         "order": "desc",
         "formpostion": "bottom"
     };</script>
-<script type='text/javascript' src='https://ftp.stackoverflow.wiki/bolo/github-cards/widget.js?ver=3.1.5'></script>
+<script type='text/javascript' src='${staticServePath}/vendor/github-cards/widget.js?ver=3.1.5'></script>
 <div class="changeSkin-gear no-select">
     <div class="keys">
         <span id="open-skinMenu"> 主题 | Theme &nbsp;<i
@@ -75,6 +75,7 @@
 <canvas id="night-mode-cover"></canvas>
 <script type="text/javascript" src="${staticServePath}/js/common.js?${staticResourceVersion}"
         charset="utf-8"></script>
+<script defer src="${staticServePath}/vendor/kanbanniang/live2d.js"></script>
 <script defer src="${staticServePath}/skins/${skinDirName}/js/main.js?${staticResourceVersion}"></script>
 <script type="text/javascript" src="${staticServePath}/skins/${skinDirName}/js/common.js?${staticResourceVersion}"
         charset="utf-8"></script>

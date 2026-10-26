@@ -167,7 +167,7 @@ var Util = {
   parseMarkdown: function () {
     if (typeof Vditor !== 'function') {
       Util.addScript(
-          'https://file.fishpi.cn/vditor/3.8.13/dist/method.min.js',
+          (Label.staticServePath+"/vendor/vditor"+"/dist/method.min.js"),
           'vditorPreviewScript')
     }
 
