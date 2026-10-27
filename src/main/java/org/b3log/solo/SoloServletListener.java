@@ -17,7 +17,10 @@
  */
 package org.b3log.solo;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Locale;
+import java.util.Properties;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletRequestEvent;
@@ -107,17 +110,36 @@ public final class SoloServletListener extends AbstractServletListener {
     public static final String STABLE_EN = "Stable";
     public static final String BETA_CN = "内测版";
     public static final String BETA_EN = "Beta";
-    public static final String BOLO_VERSION_SOURCE = "2.6.4";
-    public static final String BOLO_VERSION = "v" + BOLO_VERSION_SOURCE + " " + STABLE_CN;
-    public static final String BOLO_VERSION_EN = "v" + BOLO_VERSION_SOURCE + " " + STABLE_EN;
-    // public static final String BOLO_VERSION = "v" + BOLO_VERSION_SOURCE + " " +
-    // BETA_CN;
-    // public static final String BOLO_VERSION_EN = "v" + BOLO_VERSION_SOURCE + " "
-    // + BETA_EN;
+    public static final String BOLO_VERSION_SOURCE = loadBoloVersion();
+    private static final boolean STABLE_RELEASE = BOLO_VERSION_SOURCE.matches("\\d+(?:\\.\\d+)*(?:\\+[A-Za-z0-9.-]+)?");
+    public static final String BOLO_VERSION = "v" + BOLO_VERSION_SOURCE + " " + (STABLE_RELEASE ? STABLE_CN : BETA_CN);
+    public static final String BOLO_VERSION_EN = "v" + BOLO_VERSION_SOURCE + " " + (STABLE_RELEASE ? STABLE_EN : BETA_EN);
     /**
      * Solo version.
      */
     public static String VERSION = "4.3.4";
+
+    /**
+     * Reads the Bolo version written by Maven without changing the Solo schema version.
+     *
+     * @return the build version without the v prefix or stable suffix
+     */
+    private static String loadBoloVersion() {
+        try (InputStream input = SoloServletListener.class.getResourceAsStream("/bolo-build.properties")) {
+            if (null != input) {
+                final Properties build = new Properties();
+                build.load(input);
+                final String version = build.getProperty("version", "").trim();
+                if (version.matches("[vV]?\\d+(?:\\.\\d+)*(?:[-+._][A-Za-z0-9._-]+)?")) {
+                    return version.replaceFirst("^[vV]", "").replaceFirst("(?i)[-_]stable$", "");
+                }
+            }
+            LOGGER.log(Level.WARN, "Bolo build version is missing or unfiltered; build the application with Maven");
+        } catch (final IOException e) {
+            LOGGER.log(Level.WARN, "Unable to read Bolo build version", e);
+        }
+        return "unknown";
+    }
 
     /**
      * Bean manager.

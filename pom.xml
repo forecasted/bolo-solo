@@ -503,7 +503,15 @@
                     <exclude>etc/</exclude>
                     <exclude>lib/</exclude>
                     <exclude>docker/</exclude>
+                    <exclude>bolo-build.properties</exclude>
                 </excludes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>bolo-build.properties</include>
+                </includes>
             </resource>
         </resources>
 

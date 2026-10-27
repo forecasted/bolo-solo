@@ -101,6 +101,8 @@ java -cp "WEB-INF/lib/*:WEB-INF/classes" org.b3log.solo.Starter
 
 `-Dlicense.skip=true` 用于避免构建过程自动改写源文件的许可证头；测试阶段正常执行。Docker 构建、运行镜像和发布工作流也使用 Java 21。
 
+后台、页脚和启动日志中的 Bolo 版本统一来自 `pom.xml` 的项目版本。Maven 构建时生成 `WEB-INF/classes/bolo-build.properties`；修改版本后重新执行 `mvn -Pci -Dlicense.skip=true clean package` 并部署新包、重启服务即可。`v2.7.0` 和 `v2.7.0-stable` 显示为 `v2.7.0 稳定版`，带 `SNAPSHOT`、`dev` 等预发布后缀的版本显示为内测版。
+
 本机 Maven 中国镜像配置保存在 `~/.m2/settings.xml`，按阿里云、华为云、Maven Central 的顺序解析依赖和插件；该文件属于当前用户的全局设置，不会打包到 WAR 中。
 
 ## 依赖安全更新
