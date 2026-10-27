@@ -17,7 +17,7 @@
  */
 package org.b3log.solo.processor.console;
 
-import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.text.StringEscapeUtils;
 import org.b3log.latke.Keys;
 import org.b3log.latke.Latkes;
 import org.b3log.latke.ioc.Inject;
@@ -299,7 +299,7 @@ public class LinkConsole {
             for (int i = 0; i < links.length(); i++) {
                 final JSONObject link = links.optJSONObject(i);
                 String title = link.optString(Link.LINK_TITLE);
-                title = StringEscapeUtils.escapeXml(title);
+                title = StringEscapeUtils.escapeXml10(title);
                 link.put(Link.LINK_TITLE, title);
             }
         } catch (final Exception e) {

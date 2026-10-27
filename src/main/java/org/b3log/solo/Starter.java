@@ -25,9 +25,8 @@ import org.b3log.latke.util.Strings;
 import org.b3log.solo.bolo.Global;
 import org.b3log.solo.util.Markdowns;
 import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.util.log.Log;
-import org.eclipse.jetty.util.log.Slf4jLog;
-import org.eclipse.jetty.webapp.WebAppContext;
+import org.eclipse.jetty.ee8.webapp.WebAppContext;
+import org.eclipse.jetty.util.resource.ResourceFactory;
 
 import java.io.File;
 
@@ -43,14 +42,6 @@ import java.io.File;
  * @since 1.2.0
  */
 public final class Starter {
-
-    static {
-        try {
-            Log.setLog(new Slf4jLog());
-        } catch (final Exception e) {
-            e.printStackTrace();
-        }
-    }
 
     /**
      * Main.
@@ -183,7 +174,7 @@ public final class Starter {
         root.setParentLoaderPriority(true); // Use parent class loader
         root.setContextPath("/");
         root.setDescriptor(webappDirLocation + "/WEB-INF/web.xml");
-        root.setResourceBase(webappDirLocation);
+        root.setBaseResource(ResourceFactory.of(root).newResource(new File(webappDirLocation).toPath()));
         server.setHandler(root);
         try {
             server.start();

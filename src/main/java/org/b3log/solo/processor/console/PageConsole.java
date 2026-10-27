@@ -17,7 +17,7 @@
  */
 package org.b3log.solo.processor.console;
 
-import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.text.StringEscapeUtils;
 import org.b3log.latke.Keys;
 import org.b3log.latke.Latkes;
 import org.b3log.latke.ioc.Inject;
@@ -344,7 +344,7 @@ public class PageConsole {
             for (int i = 0; i < pages.length(); i++) {
                 final JSONObject page = pages.getJSONObject(i);
                 String title = page.optString(Page.PAGE_TITLE);
-                title = StringEscapeUtils.escapeXml(title);
+                title = StringEscapeUtils.escapeXml10(title);
                 page.put(Page.PAGE_TITLE, title);
             }
 

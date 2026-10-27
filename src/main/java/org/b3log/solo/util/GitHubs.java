@@ -19,7 +19,7 @@ package org.b3log.solo.util;
 
 import jodd.http.HttpRequest;
 import jodd.http.HttpResponse;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.b3log.latke.logging.Level;
 import org.b3log.latke.logging.Logger;
 import org.json.JSONArray;

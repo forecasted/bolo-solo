@@ -17,8 +17,8 @@
  */
 package org.b3log.solo.processor.console;
 
-import org.apache.commons.lang.StringEscapeUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.text.StringEscapeUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.b3log.latke.Keys;
 import org.b3log.latke.Latkes;
 import org.b3log.latke.ioc.Inject;
@@ -288,7 +288,7 @@ public class ArticleConsole {
             for (int i = 0; i < articles.length(); i++) {
                 final JSONObject article = articles.optJSONObject(i);
                 String title = article.optString(Article.ARTICLE_TITLE);
-                title = StringEscapeUtils.escapeXml(title);
+                title = StringEscapeUtils.escapeXml10(title);
                 article.put(Article.ARTICLE_TITLE, title);
             }
         } catch (final Exception e) {

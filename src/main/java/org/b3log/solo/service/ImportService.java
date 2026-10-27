@@ -18,8 +18,8 @@
 package org.b3log.solo.service;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.time.DateUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.time.DateUtils;
 import org.b3log.latke.Keys;
 import org.b3log.latke.ioc.Inject;
 import org.b3log.latke.logging.Level;
@@ -30,6 +30,7 @@ import org.b3log.solo.SoloServletListener;
 import org.b3log.solo.model.Article;
 import org.json.JSONObject;
 import org.yaml.snakeyaml.Yaml;
+import org.b3log.solo.util.SafeYaml;
 
 import javax.servlet.ServletContext;
 import java.io.File;
@@ -214,7 +215,7 @@ public class ImportService {
         }
 
         final JSONObject ret = new JSONObject();
-        final Yaml yaml = new Yaml();
+        final Yaml yaml = SafeYaml.createLoader();
         Map elems;
 
         try {

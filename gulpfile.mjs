@@ -24,20 +24,22 @@
  * @author <a href="https://github.com/adlered">adlered (Bolo Author)</a>
  */
 
-'use strict'
-const gulp = require('gulp')
-const concat = require('gulp-concat')
-const terser = require('gulp-terser')
-const sass = require('gulp-sass')(require('sass'));
-const rename = require('gulp-rename')
-const autoprefixer = require('gulp-autoprefixer')
-const del = require('del')
+import gulp from 'gulp'
+import concat from 'gulp-concat'
+import terser from 'gulp-terser'
+import gulpSass from 'gulp-sass'
+import * as sassCompiler from 'sass'
+import rename from 'gulp-rename'
+import autoprefixer from 'gulp-autoprefixer'
+import { deleteAsync as del } from 'del'
+
+const sass = gulpSass(sassCompiler)
 
 function sassSkinProcess () {
   return gulp.src('./src/main/webapp/skins/*/css/*.scss').
     pipe(sass({
-      outputStyle: 'compressed',
-      includePaths: ['node_modules'],
+      style: 'compressed',
+      loadPaths: ['node_modules'],
     }).on('error', sass.logError)).
     pipe(autoprefixer({
       cascade: false,
@@ -53,8 +55,8 @@ function sassWatch () {
 function sassCommonProcess () {
   return gulp.src('./src/main/webapp/scss/*.scss').
     pipe(sass({
-      outputStyle: 'compressed',
-      includePaths: ['node_modules'],
+      style: 'compressed',
+      loadPaths: ['node_modules'],
     }).on('error', sass.logError)).
     pipe(autoprefixer({
       cascade: false,

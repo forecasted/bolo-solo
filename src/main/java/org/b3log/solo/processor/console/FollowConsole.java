@@ -17,7 +17,7 @@
  */
 package org.b3log.solo.processor.console;
 
-import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.text.StringEscapeUtils;
 import org.b3log.latke.Keys;
 import org.b3log.latke.Latkes;
 import org.b3log.latke.ioc.Inject;
@@ -291,7 +291,7 @@ public class FollowConsole {
             for (int i = 0; i < follows.length(); i++) {
                 final JSONObject follow = follows.optJSONObject(i);
                 String title = follow.optString(Follow.FOLLOW_TITLE);
-                title = StringEscapeUtils.escapeXml(title);
+                title = StringEscapeUtils.escapeXml10(title);
                 follow.put(Follow.FOLLOW_TITLE, title);
             }
         } catch (final Exception e) {

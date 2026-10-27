@@ -18,7 +18,6 @@
 package org.b3log.solo.processor;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang.math.RandomUtils;
 import org.b3log.latke.ioc.BeanManager;
 import org.b3log.latke.ioc.Inject;
 import org.b3log.latke.logging.Level;
@@ -46,6 +45,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLDecoder;
 import java.util.Iterator;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * KanBanNiang processor. https://github.com/b3log/solo/issues/12472
@@ -160,7 +160,7 @@ public class KanBanNiangProcessor {
             } catch (NullPointerException e) {
                 try (final InputStream inputStream = servletContext.getResourceAsStream(assets + "/model-list.json")) {
                     final JSONArray models = new JSONArray(IOUtils.toString(inputStream, "UTF-8"));
-                    final int i = RandomUtils.nextInt(models.length());
+                    final int i = ThreadLocalRandom.current().nextInt(models.length());
                     model = models.getString(i);
                 }
             }
@@ -171,7 +171,7 @@ public class KanBanNiangProcessor {
                 if (textures.length() == 0) {
                     try (final InputStream texturesRes = servletContext.getResourceAsStream(assets + "/model/" + model + "/textures.json")) {
                         final JSONArray texturesArray = new JSONArray(IOUtils.toString(texturesRes, "UTF-8"));
-                        final Object element = texturesArray.opt(RandomUtils.nextInt(texturesArray.length()));
+                        final Object element = texturesArray.opt(ThreadLocalRandom.current().nextInt(texturesArray.length()));
                         if (element instanceof JSONArray) {
                             index.put("textures", element);
                         } else {
@@ -201,7 +201,7 @@ public class KanBanNiangProcessor {
             final ServletContext servletContext = SoloServletListener.getServletContext();
             try (final InputStream inputStream = servletContext.getResourceAsStream(assets + "/model-list.json")) {
                 final JSONArray models = new JSONArray(IOUtils.toString(inputStream, "UTF-8"));
-                final int i = RandomUtils.nextInt(models.length());
+                final int i = ThreadLocalRandom.current().nextInt(models.length());
                 model = models.getString(i);
             }
 
@@ -211,7 +211,7 @@ public class KanBanNiangProcessor {
                 if (textures.length() == 0) {
                     try (final InputStream texturesRes = servletContext.getResourceAsStream(assets + "/model/" + model + "/textures.json")) {
                         final JSONArray texturesArray = new JSONArray(IOUtils.toString(texturesRes, "UTF-8"));
-                        final Object element = texturesArray.opt(RandomUtils.nextInt(texturesArray.length()));
+                        final Object element = texturesArray.opt(ThreadLocalRandom.current().nextInt(texturesArray.length()));
                         if (element instanceof JSONArray) {
                             index.put("textures", element);
                         } else {

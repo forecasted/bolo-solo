@@ -103,6 +103,79 @@ java -cp "WEB-INF/lib/*:WEB-INF/classes" org.b3log.solo.Starter
 
 本机 Maven 中国镜像配置保存在 `~/.m2/settings.xml`，按阿里云、华为云、Maven Central 的顺序解析依赖和插件；该文件属于当前用户的全局设置，不会打包到 WAR 中。
 
+## 依赖安全更新
+
+前端构建需要 Node.js 22 或更新版本。Gulp 已升级到 5，构建入口为 `gulpfile.mjs`；修改前端源文件后，先重新生成随 WAR 发布的 CSS 和压缩脚本：
+
+```bash
+npm ci
+npm run build
+mvn -Pci -Dlicense.skip=true package
+```
+
+Maven 依赖已升级 Jetty、Jackson、SnakeYAML、Jsoup、FreeMarker、数据库驱动和图床 SDK，并统一相关传递依赖的版本。Jetty 12 使用 EE8 模块，继续兼容项目的 `javax.servlet` 接口；Log4j 1.x 由 reload4j 替代。项目代码使用 Commons Lang 3 和 Commons Text，Latke 2.5.8 所需的少量旧签名由本项目适配类委托给 Lang 3，不再携带 Commons Lang 2。腾讯云 COS 保留普通凭据上传，排除项目没有使用的 KMS 加密依赖。
+
+文章 YAML 导入只允许标准数据类型，并限制别名和嵌套深度；博客园 RSS 导入拒绝 DTD 和外部实体。相关安全与兼容性回归测试随 Maven 构建执行。
+
+可使用 OSV Scanner 2.x 对 Maven 直接及传递依赖和两份前端锁文件复扫，并独立运行 npm audit：
+
+```bash
+osv-scanner scan source -L pom.xml -L package-lock.json -L yarn.lock \
+  --format json --output-file target/osv-security-final.json
+npm audit --package-lock-only --registry=https://registry.npmjs.org
+```
+
+### 已有 H2 1.x 数据库的升级
+
+**已有 H2 1.x 数据文件必须先迁移，不能直接交给 H2 2.x 打开。** 使用 MySQL 或新建 H2 数据库时无需此步骤。H2 官方要求用原版本导出 SQL，再用新版本导入到全新数据库，详见 [H2 迁移说明](https://www.h2database.com/html/migration-to-v2.html)。
+
+#### 离线一键迁移
+
+先停止旧博客，准备 Python 3.8+、Java 21+、**旧实例实际使用的 H2 1.x JAR** 和新版本的 H2 2.x JAR。可将 [migrate-h2.py](scripts/migrate-h2.py) 单独复制到迁移机器，运行过程只使用本地文件，无须 Maven、编译器或网络。
+
+```bash
+python3 scripts/migrate-h2.py \
+  --database /path/to/solo_h2/db \
+  --old-jar /path/to/old-blog/WEB-INF/lib/h2-1.4.199.jar \
+  --new-jar /path/to/new-blog/WEB-INF/lib/h2-2.5.252.jar
+```
+
+按提示输入数据库密码，默认管理员用户名为 `root`，可通过 `--user` 修改。`--database` 也接受完整的 `.mv.db` 或 `.h2.db` 文件路径。在项目目录执行时可省略 `--new-jar`，自动使用 `target/bolo/WEB-INF/lib/` 下的新驱动；`--java` 可指定 Java 可执行文件。
+
+脚本检查旧库锁和驱动主版本，在旧库旁创建独立迁移目录，备份同名前缀的数据文件并校验 SHA-256，再使用旧驱动只读访问备份、导出 SQL，最后导入全新数据库并逐表核对表集合及行数。支持 Bolo 默认的未加密 H2 文件库，包含 MVStore 和 PageStore；迁移目录需要容纳备份、完整 SQL 和新数据库。
+
+成功后，将迁移目录 `jdbc-url.txt` 中的配置行应用到博客的 `local.properties`，保持原用户名、密码和其他配置，再启动新版本验证。`manifest.json` 记录迁移状态、驱动版本、文件校验值和各表行数，`backup/` 保存原库备份，`export.sql` 保存 SQL，`logs/` 保存每步执行日志。原数据库和现有配置保持原样；已有输出目录会被拒绝。失败时保留现场，重试请使用新的目录。
+
+自动化执行可使用 `--password-file /path/to/password.txt`（UTF-8，保留密码中的空格，仅移除结尾换行）、`H2_PASSWORD` 环境变量或显式的 `--empty-password`；可通过 `--output-dir /path/to/new-migration-directory` 指定尚不存在的迁移目录。完整参数见 `python3 scripts/migrate-h2.py --help`。
+
+可用本地驱动运行迁移脚本的集成测试，测试只创建临时数据库：
+
+```bash
+python3 scripts/test-h2-migration.py \
+  --old-jar /path/to/h2-1.4.199.jar \
+  --new-jar /path/to/h2-2.5.252.jar --java /path/to/java21/bin/java -v
+```
+
+#### 手工迁移
+
+先停止旧博客并完整备份数据库目录。以下为原 H2 1.4.199 升级到 2.5.252 的示例；请按实际版本、数据库位置、用户名和密码替换参数。旧文件示例是 `db.mv.db`，JDBC URL 中不包含 `.mv.db` 扩展名；导入目标使用新的 `db-v2` 路径，不覆盖原文件。
+
+```bash
+# 使用旧实例原有的 H2 JAR 导出；连接参数必须与旧实例一致。
+java -cp /path/to/h2-1.4.199.jar org.h2.tools.Script \
+  -url 'jdbc:h2:/path/to/solo_h2/db;MODE=MYSQL;IFEXISTS=TRUE' \
+  -user YOUR_DB_USER -password YOUR_DB_PASSWORD \
+  -script /path/to/backup/bolo-h2-1x.sql
+
+# 使用新 WAR 中的 H2 JAR，将 SQL 导入到尚不存在的新数据库。
+java -cp target/bolo/WEB-INF/lib/h2-2.5.252.jar org.h2.tools.RunScript \
+  -url 'jdbc:h2:/path/to/solo_h2/db-v2;MODE=MYSQL' \
+  -user YOUR_DB_USER -password YOUR_DB_PASSWORD \
+  -script /path/to/backup/bolo-h2-1x.sql -options FROM_1X
+```
+
+确认导入成功并核对文章、评论和用户等表的数据后，将 `local.properties` 的 `jdbc.URL` 改为新路径，再启动新版本验证登录、文章和后台。保留原数据库文件、SQL 导出和旧部署包，以便需要时恢复。迁移命令中的密码可能进入 shell 历史，应按部署环境的凭据管理方式执行。
+
 ## 静态资源与外部域名
 
 固定的前端资源随项目一起发布，无须在运行时访问 CDN。`src/main/webapp/vendor/` 保存第三方样式、脚本、字体和编辑器依赖；看板娘贴图保存在 `src/main/webapp/plugins/kanbanniang/assets/model/`。Maven 打包 WAR 时会包含这些文件，部署时应完整更新 webapp，并刷新浏览器缓存。

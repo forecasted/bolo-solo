@@ -26,7 +26,7 @@ import com.vladsch.flexmark.util.data.DataHolder;
 import com.vladsch.flexmark.util.data.MutableDataSet;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.b3log.latke.Latkes;
 import org.b3log.latke.ioc.BeanManager;
 import org.b3log.latke.logging.Level;
@@ -40,7 +40,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.nodes.Node;
 import org.jsoup.parser.Parser;
-import org.jsoup.safety.Whitelist;
+import org.jsoup.safety.Safelist;
 import org.jsoup.select.NodeVisitor;
 
 import java.io.InputStream;
@@ -145,7 +145,7 @@ public final class Markdowns {
      * @return html
      */
     public static String clean(final String html) {
-        final Whitelist whitelist = Whitelist.relaxed();
+        final Safelist whitelist = Safelist.relaxed();
         // 允许代码块语言高亮信息
         whitelist.addAttributes("pre", "class").
                 addAttributes("div", "class", "data-code").

@@ -21,8 +21,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.lang.StringEscapeUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.text.StringEscapeUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.b3log.latke.Keys;
 import org.b3log.latke.Latkes;
 import org.b3log.latke.ioc.Inject;
@@ -456,7 +456,7 @@ public class CategoryConsole {
             for (int i = 0; i < categories.length(); i++) {
                 final JSONObject category = categories.optJSONObject(i);
                 String title = category.optString(Category.CATEGORY_TITLE);
-                title = StringEscapeUtils.escapeXml(title);
+                title = StringEscapeUtils.escapeXml10(title);
                 category.put(Category.CATEGORY_TITLE, title);
             }
         } catch (final ServiceException e) {

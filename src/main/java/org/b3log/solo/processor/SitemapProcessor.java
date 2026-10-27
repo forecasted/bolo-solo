@@ -17,8 +17,8 @@
  */
 package org.b3log.solo.processor;
 
-import org.apache.commons.lang.StringEscapeUtils;
-import org.apache.commons.lang.time.DateFormatUtils;
+import org.apache.commons.text.StringEscapeUtils;
+import org.apache.commons.lang3.time.DateFormatUtils;
 import org.b3log.latke.Keys;
 import org.b3log.latke.Latkes;
 import org.b3log.latke.ioc.Inject;
@@ -136,7 +136,7 @@ public class SitemapProcessor {
             final String permalink = article.getString(Article.ARTICLE_PERMALINK);
 
             final URL url = new URL();
-            url.setLoc(StringEscapeUtils.escapeXml(Latkes.getServePath() + permalink));
+            url.setLoc(StringEscapeUtils.escapeXml10(Latkes.getServePath() + permalink));
             final long updated = article.getLong(Article.ARTICLE_UPDATED);
             final String lastMod = DateFormatUtils.ISO_DATETIME_TIME_ZONE_FORMAT.format(updated);
             url.setLastMod(lastMod);
